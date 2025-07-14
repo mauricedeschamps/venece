@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="ベネチアのベスト観光スポット12選を紹介">
+    <title>Venice Travel Guide - Top 12 Attractions</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛶</text></svg>">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --gold: #e6c200;
+            --text: #f1f1f1;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --card-bg: #16213e;
+            --highlight: #4ecca3;
+            --footer-bg: #0d1b2a;
+        }
+
+        [data-theme="light"] {
+            --primary: #e6f4f1;
+            --secondary: #c5e4e6;
+            --accent: #a3d2ca;
+            --gold: #d4af37;
+            --text: #1a1a2e;
+            --shadow: rgba(100, 100, 100, 0.2);
+            --card-bg: #ffffff;
+            --highlight: #4ecca3;
+            --footer-bg: #a3d2ca;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px var(--shadow);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .title-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .theme-btn {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .lang-btn {
+            background: var(--highlight);
+            color: var(--primary);
+        }
+
+        .back-btn {
+            background: var(--accent);
+            margin: 20px 0;
+        }
+
+        .attraction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .attraction-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(230, 194, 0, 0.2);
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow);
+            border-color: var(--gold);
+        }
+
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--gold);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .card-subtitle {
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .card-desc {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .detail-page {
+            padding: 20px;
+        }
+
+        .detail-header {
+            margin-bottom: 30px;
+        }
+
+        .detail-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .detail-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .detail-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .detail-img {
+            height: 350px;
+            border-radius: 15px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .detail-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .detail-highlight {
+            background: rgba(78, 204, 163, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--highlight);
+        }
+
+        .official-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: var(--gold);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        .official-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px var(--shadow);
+        }
+
+        footer {
+            background: var(--footer-bg);
+            text-align: center;
+            padding: 25px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid var(--gold);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .contact-email {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .water-effect {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(transparent, rgba(10, 30, 70, 0.3));
+            z-index: -1;
+        }
+
+        .gondola {
+            position: fixed;
+            bottom: 20px;
+            right: -100px;
+            width: 80px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path d="M10,25 Q30,5 50,25 Q70,45 90,25 L90,40 L10,40 Z" fill="%2316213e" stroke="%23e6c200" stroke-width="1"/></svg>');
+            background-repeat: no-repeat;
+            animation: sail 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes sail {
+            0% { right: -100px; transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { right: 100%; transform: translateY(0); }
+        }
+
+        /* レスポンシブ調整 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                align-self: flex-end;
+                margin-top: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .detail-title {
+                font-size: 2rem;
+            }
+            
+            .gondola {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .attraction-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="title-group">
+                <h1 id="main-title">Venice Top 12</h1>
+                <h2 id="sub-title">Discover the magic of Venice</h2>
+            </div>
+            <div class="controls">
+                <button class="btn theme-btn" id="theme-toggle">
+                    <span id="theme-icon">☀️</span>
+                    <span id="theme-text">Light Mode</span>
+                </button>
+                <button class="btn lang-btn" id="lang-toggle">
+                    <span id="lang-icon">🇮🇹</span>
+                    <span id="lang-text">Italiano</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="main-page">
+            <div class="attraction-grid" id="attractions-container">
+                <!-- アトラクションカードはJSで生成 -->
+            </div>
+        </div>
+        
+        <div id="detail-page" class="hidden detail-page">
+            <button class="btn back-btn" id="back-button">← Back to List</button>
+            <div class="detail-header">
+                <h2 class="detail-title" id="detail-title">Attraction Title</h2>
+                <h3 class="detail-subtitle" id="detail-subtitle">Attraction Subtitle</h3>
+            </div>
+            <div class="detail-content">
+                <div class="detail-img" id="detail-image"></div>
+                <div class="detail-text">
+                    <p id="detail-description">Description will appear here...</p>
+                    <div class="detail-highlight" id="detail-highlight">
+                        Highlighted information
+                    </div>
+                    <a href="#" class="official-link" id="official-link" target="_blank">Visit Official Website</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="contact-text">Contact me</div>
+            <a href="mailto:mementomorikatsu@gmail.com" class="contact-email">mementomorikatsu@gmail.com</a>
+        </div>
+    </footer>
+
+    <div class="water-effect"></div>
+    <div class="gondola"></div>
+
+    <script>
+        // アプリの状態管理
+        const appState = {
+            currentTheme: 'dark',
+            currentLanguage: 'en',
+            currentPage: 'main',
+            currentAttractionId: null
+        };
+
+        // 観光スポットデータ
+        const attractionsData = {
+            en: [
+                {
+                    id: 1,
+                    title: "St. Mark's Square",
+                    subtitle: "The heart of Venice",
+                    description: "The principal public square of Venice, dominated by the majestic St. Mark's Basilica and the Doge's Palace.",
+                    highlight: "Don't miss the beautiful mosaics inside the Basilica and the view from the bell tower.",
+                    image: "st-marks-square",
+                    officialUrl: "https://www.basilicasanmarco.it/"
+                },
+                {
+                    id: 2,
+                    title: "St. Mark's Basilica",
+                    subtitle: "Byzantine masterpiece",
+                    description: "A stunning cathedral known for its opulent design, gilded mosaics, and status as a symbol of Venetian wealth and power.",
+                    highlight: "The golden mosaics covering the interior earned it the nickname 'Church of Gold'.",
+                    image: "st-marks-basilica",
+                    officialUrl: "https://www.basilicasanmarco.it/"
+                },
+                {
+                    id: 3,
+                    title: "Doge's Palace",
+                    subtitle: "Symbol of Venetian power",
+                    description: "A masterpiece of Gothic architecture, this palace was the residence of the Doge of Venice and housed political institutions.",
+                    highlight: "Must see: Tintoretto's enormous painting 'Paradise' in the Great Council Hall.",
+                    image: "doges-palace",
+                    officialUrl: "https://palazzoducale.visitmuve.it/"
+                },
+                {
+                    id: 4,
+                    title: "Bridge of Sighs",
+                    subtitle: "Romantic landmark",
+                    description: "This enclosed bridge made of white limestone passes over the Rio di Palazzo and connects the Doge's Palace to the prison.",
+                    highlight: "Beautiful especially at sunset when the light reflects on the white stone.",
+                    image: "bridge-of-sighs",
+                    officialUrl: "https://palazzoducale.visitmuve.it/"
+                },
+                {
+                    id: 5,
+                    title: "Rialto Bridge",
+                    subtitle: "Oldest bridge over Grand Canal",
+                    description: "The oldest of the four bridges spanning the Grand Canal, famous for its design and the surrounding market area.",
+                    highlight: "Explore the Rialto Market nearby for local atmosphere and fresh produce.",
+                    image: "rialto-bridge",
+                    officialUrl: "https://www.veneziaunica.it/"
+                },
+                {
+                    id: 6,
+                    title: "Grand Canal",
+                    subtitle: "Venice's main waterway",
+                    description: "The major water-traffic corridor winding through Venice, lined with palaces, churches, and historic buildings.",
+                    highlight: "Take Vaporetto Line 1 for a 45-minute cruise from Santa Lucia Station to St. Mark's.",
+                    image: "grand-canal",
+                    officialUrl: "https://www.actv.it/"
+                },
+                {
+                    id: 7,
+                    title: "Ca' Rezzonico",
+                    subtitle: "18th century Venetian art",
+                    description: "A magnificent palace on the Grand Canal housing the Museum of 18th-Century Venice with period furnishings and art.",
+                    highlight: "Experience the atmosphere of Venetian Baroque luxury.",
+                    image: "ca-rezzonico",
+                    officialUrl: "https://carezzonico.visitmuve.it/"
+                },
+                {
+                    id: 8,
+                    title: "Gallerie dell'Accademia",
+                    subtitle: "Treasures of Venetian painting",
+                    description: "Houses the largest collection of Venetian paintings from the 14th to 18th centuries, including works by Bellini, Titian, and Veronese.",
+                    highlight: "Don't miss Leonardo da Vinci's 'Vitruvian Man' (exhibited periodically).",
+                    image: "accademia",
+                    officialUrl: "https://www.gallerieaccademia.it/"
+                },
+                {
+                    id: 9,
+                    title: "Peggy Guggenheim Collection",
+                    subtitle: "Modern art on the Grand Canal",
+                    description: "One of Europe's premier museums for European and American modern art of the first half of the 20th century.",
+                    highlight: "Features works by Picasso, Pollock, Dalí, and many others in a beautiful palazzo setting.",
+                    image: "guggenheim",
+                    officialUrl: "https://www.guggenheim-venice.it/"
+                },
+                {
+                    id: 10,
+                    title: "Scala Contarini del Bovolo",
+                    subtitle: "Hidden architectural gem",
+                    description: "A unique spiral staircase tower hidden in a small courtyard, a masterpiece of Venetian Renaissance architecture.",
+                    highlight: "Climb to the top for one of the best views of Venice rooftops.",
+                    image: "bovolo",
+                    officialUrl: "https://www.scalacontarinidelbovolo.com/"
+                },
+                {
+                    id: 11,
+                    title: "Campo Santa Margherita",
+                    subtitle: "Local life in Venice",
+                    description: "A lively square in the Dorsoduro district, popular with students and locals for its cafes, bars, and market stalls.",
+                    highlight: "Experience authentic Venetian atmosphere away from the main tourist spots.",
+                    image: "santa-margherita",
+                    officialUrl: "https://www.veneziaunica.it/"
+                },
+                {
+                    id: 12,
+                    title: "Burano & Murano Islands",
+                    subtitle: "Color and craftsmanship",
+                    description: "Burano is famous for its brightly colored fishermen's houses and lace-making, while Murano is renowned for its glassmaking tradition.",
+                    highlight: "Take a vaporetto to explore these charming islands and their crafts.",
+                    image: "burano-murano",
+                    officialUrl: "https://www.veneziaunica.it/"
+                }
+            ],
+            it: [
+                {
+                    id: 1,
+                    title: "Piazza San Marco",
+                    subtitle: "Il cuore di Venezia",
+                    description: "La piazza principale di Venezia, dominata dalla maestosa Basilica di San Marco e dal Palazzo Ducale.",
+                    highlight: "Da non perdere i bellissimi mosaici all'interno della Basilica e la vista dal campanile.",
+                    image: "st-marks-square",
+                    officialUrl: "https://www.basilicasanmarco.it/"
+                },
+                {
+                    id: 2,
+                    title: "Basilica di San Marco",
+                    subtitle: "Capolavoro bizantino",
+                    description: "Una splendida cattedrale nota per il suo design opulento, i mosaici dorati e lo status di simbolo della ricchezza e del potere veneziano.",
+                    highlight: "I mosaici dorati che ricoprono l'interno le sono valsi il soprannome di 'Chiesa d'Oro'.",
+                    image: "st-marks-basilica",
+                    officialUrl: "https://www.basilicasanmarco.it/"
+                },
+                {
+                    id: 3,
+                    title: "Palazzo Ducale",
+                    subtitle: "Simbolo del potere veneziano",
+                    description: "Capolavoro dell'architettura gotica, questo palazzo era la residenza del Doge di Venezia e ospitava le istituzioni politiche.",
+                    highlight: "Da vedere: l'enorme dipinto di Tintoretto 'Paradiso' nella Sala del Maggior Consiglio.",
+                    image: "doges-palace",
+                    officialUrl: "https://palazzoducale.visitmuve.it/"
+                },
+                {
+                    id: 4,
+                    title: "Ponte dei Sospiri",
+                    subtitle: "Monumento romantico",
+                    description: "Questo ponte coperto in pietra calcarea bianca passa sul Rio di Palazzo e collega Palazzo Ducale alle prigioni.",
+                    highlight: "Bellissimo soprattutto al tramonto quando la luce si riflette sulla pietra bianca.",
+                    image: "bridge-of-sighs",
+                    officialUrl: "https://palazzoducale.visitmuve.it/"
+                },
+                {
+                    id: 5,
+                    title: "Ponte di Rialto",
+                    subtitle: "Il più antico ponte sul Canal Grande",
+                    description: "Il più antico dei quattro ponti che attraversano il Canal Grande, famoso per il suo design e l'area del mercato circostante.",
+                    highlight: "Esplora il Mercato di Rialto nelle vicinanze per l'atmosfera locale e i prodotti freschi.",
+                    image: "rialto-bridge",
+                    officialUrl: "https://www.veneziaunica.it/"
+                },
+                {
+                    id: 6,
+                    title: "Canal Grande",
+                    subtitle: "Principale via d'acqua di Venezia",
+                    description: "Il principale corridoio del traffico acquatico che si snoda attraverso Venezia, fiancheggiato da palazzi, chiese ed edifici storici.",
+                    highlight: "Prendi il Vaporetto Linea 1 per una crociera di 45 minuti dalla Stazione di Santa Lucia a San Marco.",
+                    image: "grand-canal",
+                    officialUrl: "https://www.actv.it/"
+                },
+                {
+                    id: 7,
+                    title: "Ca' Rezzonico",
+                    subtitle: "Arte veneziana del XVIII secolo",
+                    description: "Un magnifico palazzo sul Canal Grande che ospita il Museo del Settecento Veneziano con arredi e arte del periodo.",
+                    highlight: "Vivi l'atmosfera del lusso barocco veneziano.",
+                    image: "ca-rezzonico",
+                    officialUrl: "https://carezzonico.visitmuve.it/"
+                },
+                {
+                    id: 8,
+                    title: "Gallerie dell'Accademia",
+                    subtitle: "Tesori della pittura veneziana",
+                    description: "Ospita la più grande collezione di dipinti veneziani dal XIV al XVIII secolo, inclusi opere di Bellini, Tiziano e Veronese.",
+                    highlight: "Da non perdere l''Uomo vitruviano' di Leonardo da Vinci (esposto periodicamente).",
+                    image: "accademia",
+                    officialUrl: "https://www.gallerieaccademia.it/"
+                },
+                {
+                    id: 9,
+                    title: "Collezione Peggy Guggenheim",
+                    subtitle: "Arte moderna sul Canal Grande",
+                    description: "Uno dei principali musei europei per l'arte moderna europea e americana della prima metà del XX secolo.",
+                    highlight: "Opere di Picasso, Pollock, Dalí e molti altri in una splendida cornice di palazzo.",
+                    image: "guggenheim",
+                    officialUrl: "https://www.guggenheim-venice.it/"
+                },
+                {
+                    id: 10,
+                    title: "Scala Contarini del Bovolo",
+                    subtitle: "Gioiello architettonico nascosto",
+                    description: "Una torre di scale a chiocciola unica nascosta in un piccolo cortile, capolavoro dell'architettura rinascimentale veneziana.",
+                    highlight: "Salite in cima per una delle migliori viste sui tetti di Venezia.",
+                    image: "bovolo",
+                    officialUrl: "https://www.scalacontarinidelbovolo.com/"
+                },
+                {
+                    id: 11,
+                    title: "Campo Santa Margherita",
+                    subtitle: "Vita locale a Venezia",
+                    description: "Una piazza vivace nel sestiere di Dorsoduro, popolare tra studenti e locali per i suoi caffè, bar e bancarelle.",
+                    highlight: "Vivi l'autentica atmosfera veneziana lontano dalle principali attrazioni turistiche.",
+                    image: "santa-margherita",
+                    officialUrl: "https://www.veneziaunica.it/"
+                },
+                {
+                    id: 12,
+                    title: "Isole di Burano e Murano",
+                    subtitle: "Colore e artigianato",
+                    description: "Burano è famosa per le sue case colorate dei pescatori e la lavorazione del merletto, mentre Murano è rinomata per la sua tradizione vetraria.",
+                    highlight: "Prendi un vaporetto per esplorare queste affascinanti isole e i loro mestieri.",
+                    image: "burano-murano",
+                    officialUrl: "https://www.veneziaunica.it/"
+                }
+            ]
+        };
+
+        // テーマ切り替え
+        function toggleTheme() {
+            if (appState.currentTheme === 'dark') {
+                appState.currentTheme = 'light';
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.querySelector('#theme-icon').textContent = '🌙';
+                document.querySelector('#theme-text').textContent = 'Dark Mode';
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#e6f4f1');
+            } else {
+                appState.currentTheme = 'dark';
+                document.documentElement.removeAttribute('data-theme');
+                document.querySelector('#theme-icon').textContent = '☀️';
+                document.querySelector('#theme-text').textContent = 'Light Mode';
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1a1a2e');
+            }
+        }
+
+        // 言語切り替え
+        function toggleLanguage() {
+            if (appState.currentLanguage === 'en') {
+                appState.currentLanguage = 'it';
+                document.querySelector('#lang-icon').textContent = '🇬🇧';
+                document.querySelector('#lang-text').textContent = 'English';
+                document.querySelector('#main-title').textContent = 'Venezia Top 12';
+                document.querySelector('#sub-title').textContent = 'Scopri la magia di Venezia';
+            } else {
+                appState.currentLanguage = 'en';
+                document.querySelector('#lang-icon').textContent = '🇮🇹';
+                document.querySelector('#lang-text').textContent = 'Italiano';
+                document.querySelector('#main-title').textContent = 'Venice Top 12';
+                document.querySelector('#sub-title').textContent = 'Discover the magic of Venice';
+            }
+            renderAttractions();
+        }
+
+        // 観光スポットのレンダリング
+        function renderAttractions() {
+            const container = document.getElementById('attractions-container');
+            container.innerHTML = '';
+            
+            const data = attractionsData[appState.currentLanguage];
+            
+            data.forEach(attraction => {
+                const card = document.createElement('div');
+                card.className = 'attraction-card fade-in';
+                card.innerHTML = `
+                    <div class="card-img" style="background-image: url('https://picsum.photos/seed/${attraction.image}/600/400')">
+                        <div class="card-number">${attraction.id}</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${attraction.title}</h3>
+                        <p class="card-subtitle">${attraction.subtitle}</p>
+                        <p class="card-desc">${attraction.description}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => showDetail(attraction.id));
+                container.appendChild(card);
+            });
+        }
+
+        // 詳細ページの表示
+        function showDetail(id) {
+            const data = attractionsData[appState.currentLanguage].find(item => item.id === id);
+            if (!data) return;
+            
+            appState.currentAttractionId = id;
+            document.getElementById('detail-title').textContent = data.title;
+            document.getElementById('detail-subtitle').textContent = data.subtitle;
+            document.getElementById('detail-description').textContent = data.description;
+            document.getElementById('detail-highlight').textContent = data.highlight;
+            document.getElementById('official-link').href = data.officialUrl;
+            document.getElementById('detail-image').style.backgroundImage = `url('https://picsum.photos/seed/${data.image}/800/600')`;
+            
+            document.getElementById('main-page').classList.add('hidden');
+            document.getElementById('detail-page').classList.remove('hidden');
+            document.getElementById('detail-page').classList.add('fade-in');
+        }
+
+        // メインページに戻る
+        function goBack() {
+            document.getElementById('detail-page').classList.add('hidden');
+            document.getElementById('main-page').classList.remove('hidden');
+            appState.currentAttractionId = null;
+        }
+
+        // PWAのインストール
+        function initPWA() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.error('Service Worker registration failed', err));
+            }
+        }
+
+        // イベントリスナーの設定
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+        document.getElementById('back-button').addEventListener('click', goBack);
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAttractions();
+            initPWA();
+        });
+    </script>
+</body>
+</html>
