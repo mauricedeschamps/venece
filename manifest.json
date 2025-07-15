@@ -1,6 +1,6 @@
 {
-  "name": "Venice Top 12",
-  "short_name": "VeniceGuide",
+  "name": "Venice Travel Guide",
+  "short_name": "Venice Guide",
   "description": "Discover the best attractions in Venice",
   "start_url": "/",
   "display": "standalone",
