@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a2e">
-    <meta name="description" content="ãƒ™ãƒãƒã‚¢ã®ãƒ™ã‚¹ãƒˆè¦³å…‰ã‚¹ãƒãƒƒãƒˆ12é¸ã‚’ç´¹ä»‹">
+    <meta name="description" content="ベネチアのベスト観光スポット12選を紹介">
     <title>Venice Travel Guide - Top 12 Attractions</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>ðŸ›¶</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛶</text></svg>">
     <style>
         :root {
             --primary: #1a1a2e;
@@ -350,7 +350,7 @@
             100% { right: 100%; transform: translateY(0); }
         }
 
-        /* ãƒ¬ã‚¹ãƒãƒ³ã‚·ãƒ–èª¿æ•´ */
+        /* レスポンシブ調整 */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -400,11 +400,11 @@
             </div>
             <div class="controls">
                 <button class="btn theme-btn" id="theme-toggle">
-                    <span id="theme-icon">â˜€ï¸</span>
+                    <span id="theme-icon">☀️</span>
                     <span id="theme-text">Light Mode</span>
                 </button>
                 <button class="btn lang-btn" id="lang-toggle">
-                    <span id="lang-icon">ðŸ‡®ðŸ‡¹</span>
+                    <span id="lang-icon">🇮🇹</span>
                     <span id="lang-text">Italiano</span>
                 </button>
             </div>
@@ -414,12 +414,12 @@
     <div class="container">
         <div id="main-page">
             <div class="attraction-grid" id="attractions-container">
-                <!-- ã‚¢ãƒˆãƒ©ã‚¯ã‚·ãƒ§ãƒ³ã‚«ãƒ¼ãƒ‰ã¯JSã§ç”Ÿæˆ -->
+                <!-- アトラクションカードはJSで生成 -->
             </div>
         </div>
         
         <div id="detail-page" class="hidden detail-page">
-            <button class="btn back-btn" id="back-button">â† Back to List</button>
+            <button class="btn back-btn" id="back-button">← Back to List</button>
             <div class="detail-header">
                 <h2 class="detail-title" id="detail-title">Attraction Title</h2>
                 <h3 class="detail-subtitle" id="detail-subtitle">Attraction Subtitle</h3>
@@ -448,7 +448,7 @@
     <div class="gondola"></div>
 
     <script>
-        // ã‚¢ãƒ—ãƒªã®çŠ¶æ…‹ç®¡ç†
+        // アプリの状態管理
         const appState = {
             currentTheme: 'dark',
             currentLanguage: 'en',
@@ -456,7 +456,7 @@
             currentAttractionId: null
         };
 
-        // è¦³å…‰ã‚¹ãƒãƒƒãƒˆãƒ‡ãƒ¼ã‚¿
+        // 観光スポットデータ
         const attractionsData = {
             en: [
                 {
@@ -536,7 +536,7 @@
                     title: "Peggy Guggenheim Collection",
                     subtitle: "Modern art on the Grand Canal",
                     description: "One of Europe's premier museums for European and American modern art of the first half of the 20th century.",
-                    highlight: "Features works by Picasso, Pollock, DalÃ­, and many others in a beautiful palazzo setting.",
+                    highlight: "Features works by Picasso, Pollock, Dalí, and many others in a beautiful palazzo setting.",
                     image: "guggenheim",
                     officialUrl: "https://www.guggenheim-venice.it/"
                 },
@@ -608,8 +608,8 @@
                 {
                     id: 5,
                     title: "Ponte di Rialto",
-                    subtitle: "Il piÃ¹ antico ponte sul Canal Grande",
-                    description: "Il piÃ¹ antico dei quattro ponti che attraversano il Canal Grande, famoso per il suo design e l'area del mercato circostante.",
+                    subtitle: "Il più antico ponte sul Canal Grande",
+                    description: "Il più antico dei quattro ponti che attraversano il Canal Grande, famoso per il suo design e l'area del mercato circostante.",
                     highlight: "Esplora il Mercato di Rialto nelle vicinanze per l'atmosfera locale e i prodotti freschi.",
                     image: "rialto-bridge",
                     officialUrl: "https://www.veneziaunica.it/"
@@ -636,7 +636,7 @@
                     id: 8,
                     title: "Gallerie dell'Accademia",
                     subtitle: "Tesori della pittura veneziana",
-                    description: "Ospita la piÃ¹ grande collezione di dipinti veneziani dal XIV al XVIII secolo, inclusi opere di Bellini, Tiziano e Veronese.",
+                    description: "Ospita la più grande collezione di dipinti veneziani dal XIV al XVIII secolo, inclusi opere di Bellini, Tiziano e Veronese.",
                     highlight: "Da non perdere l''Uomo vitruviano' di Leonardo da Vinci (esposto periodicamente).",
                     image: "accademia",
                     officialUrl: "https://www.gallerieaccademia.it/"
@@ -645,8 +645,8 @@
                     id: 9,
                     title: "Collezione Peggy Guggenheim",
                     subtitle: "Arte moderna sul Canal Grande",
-                    description: "Uno dei principali musei europei per l'arte moderna europea e americana della prima metÃ  del XX secolo.",
-                    highlight: "Opere di Picasso, Pollock, DalÃ­ e molti altri in una splendida cornice di palazzo.",
+                    description: "Uno dei principali musei europei per l'arte moderna europea e americana della prima metà del XX secolo.",
+                    highlight: "Opere di Picasso, Pollock, Dalí e molti altri in una splendida cornice di palazzo.",
                     image: "guggenheim",
                     officialUrl: "https://www.guggenheim-venice.it/"
                 },
@@ -663,7 +663,7 @@
                     id: 11,
                     title: "Campo Santa Margherita",
                     subtitle: "Vita locale a Venezia",
-                    description: "Una piazza vivace nel sestiere di Dorsoduro, popolare tra studenti e locali per i suoi caffÃ¨, bar e bancarelle.",
+                    description: "Una piazza vivace nel sestiere di Dorsoduro, popolare tra studenti e locali per i suoi caffè, bar e bancarelle.",
                     highlight: "Vivi l'autentica atmosfera veneziana lontano dalle principali attrazioni turistiche.",
                     image: "santa-margherita",
                     officialUrl: "https://www.veneziaunica.it/"
@@ -672,7 +672,7 @@
                     id: 12,
                     title: "Isole di Burano e Murano",
                     subtitle: "Colore e artigianato",
-                    description: "Burano Ã¨ famosa per le sue case colorate dei pescatori e la lavorazione del merletto, mentre Murano Ã¨ rinomata per la sua tradizione vetraria.",
+                    description: "Burano è famosa per le sue case colorate dei pescatori e la lavorazione del merletto, mentre Murano è rinomata per la sua tradizione vetraria.",
                     highlight: "Prendi un vaporetto per esplorare queste affascinanti isole e i loro mestieri.",
                     image: "burano-murano",
                     officialUrl: "https://www.veneziaunica.it/"
@@ -680,34 +680,34 @@
             ]
         };
 
-        // ãƒ†ãƒ¼ãƒžåˆ‡ã‚Šæ›¿ãˆ
+        // テーマ切り替え
         function toggleTheme() {
             if (appState.currentTheme === 'dark') {
                 appState.currentTheme = 'light';
                 document.documentElement.setAttribute('data-theme', 'light');
-                document.querySelector('#theme-icon').textContent = 'ðŸŒ™';
+                document.querySelector('#theme-icon').textContent = '🌙';
                 document.querySelector('#theme-text').textContent = 'Dark Mode';
                 document.querySelector('meta[name="theme-color"]').setAttribute('content', '#e6f4f1');
             } else {
                 appState.currentTheme = 'dark';
                 document.documentElement.removeAttribute('data-theme');
-                document.querySelector('#theme-icon').textContent = 'â˜€ï¸';
+                document.querySelector('#theme-icon').textContent = '☀️';
                 document.querySelector('#theme-text').textContent = 'Light Mode';
                 document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1a1a2e');
             }
         }
 
-        // è¨€èªžåˆ‡ã‚Šæ›¿ãˆ
+        // 言語切り替え
         function toggleLanguage() {
             if (appState.currentLanguage === 'en') {
                 appState.currentLanguage = 'it';
-                document.querySelector('#lang-icon').textContent = 'ðŸ‡¬ðŸ‡§';
+                document.querySelector('#lang-icon').textContent = '🇬🇧';
                 document.querySelector('#lang-text').textContent = 'English';
                 document.querySelector('#main-title').textContent = 'Venezia Top 12';
                 document.querySelector('#sub-title').textContent = 'Scopri la magia di Venezia';
             } else {
                 appState.currentLanguage = 'en';
-                document.querySelector('#lang-icon').textContent = 'ðŸ‡®ðŸ‡¹';
+                document.querySelector('#lang-icon').textContent = '🇮🇹';
                 document.querySelector('#lang-text').textContent = 'Italiano';
                 document.querySelector('#main-title').textContent = 'Venice Top 12';
                 document.querySelector('#sub-title').textContent = 'Discover the magic of Venice';
@@ -715,7 +715,7 @@
             renderAttractions();
         }
 
-        // è¦³å…‰ã‚¹ãƒãƒƒãƒˆã®ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°
+        // 観光スポットのレンダリング
         function renderAttractions() {
             const container = document.getElementById('attractions-container');
             container.innerHTML = '';
@@ -740,7 +740,7 @@
             });
         }
 
-        // è©³ç´°ãƒšãƒ¼ã‚¸ã®è¡¨ç¤º
+        // 詳細ページの表示
         function showDetail(id) {
             const data = attractionsData[appState.currentLanguage].find(item => item.id === id);
             if (!data) return;
@@ -758,14 +758,14 @@
             document.getElementById('detail-page').classList.add('fade-in');
         }
 
-        // ãƒ¡ã‚¤ãƒ³ãƒšãƒ¼ã‚¸ã«æˆ»ã‚‹
+        // メインページに戻る
         function goBack() {
             document.getElementById('detail-page').classList.add('hidden');
             document.getElementById('main-page').classList.remove('hidden');
             appState.currentAttractionId = null;
         }
 
-        // PWAã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
+        // PWAのインストール
         function initPWA() {
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
@@ -774,12 +774,12 @@
             }
         }
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠãƒ¼ã®è¨­å®š
+        // イベントリスナーの設定
         document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
         document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
         document.getElementById('back-button').addEventListener('click', goBack);
 
-        // åˆæœŸåŒ–
+        // 初期化
         document.addEventListener('DOMContentLoaded', () => {
             renderAttractions();
             initPWA();
