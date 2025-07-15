@@ -9,7 +9,386 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛶</text></svg>">
     <style>
-        /* スタイル部分は変更なし（省略） */
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --gold: #e6c200;
+            --text: #f1f1f1;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --card-bg: #16213e;
+            --highlight: #4ecca3;
+            --footer-bg: #0d1b2a;
+        }
+
+        [data-theme="light"] {
+            --primary: #e6f4f1;
+            --secondary: #c5e4e6;
+            --accent: #a3d2ca;
+            --gold: #d4af37;
+            --text: #1a1a2e;
+            --shadow: rgba(100, 100, 100, 0.2);
+            --card-bg: #ffffff;
+            --highlight: #4ecca3;
+            --footer-bg: #a3d2ca;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px var(--shadow);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .title-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .theme-btn {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .lang-btn {
+            background: var(--highlight);
+            color: var(--primary);
+        }
+
+        .back-btn {
+            background: var(--accent);
+            margin: 20px 0;
+        }
+
+        .attraction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .attraction-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(230, 194, 0, 0.2);
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow);
+            border-color: var(--gold);
+        }
+
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--gold);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .card-subtitle {
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .card-desc {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .detail-page {
+            padding: 20px;
+        }
+
+        .detail-header {
+            margin-bottom: 30px;
+        }
+
+        .detail-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .detail-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .detail-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .detail-img {
+            height: 350px;
+            border-radius: 15px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .detail-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .detail-highlight {
+            background: rgba(78, 204, 163, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--highlight);
+        }
+
+        .official-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: var(--gold);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        .official-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px var(--shadow);
+        }
+
+        footer {
+            background: var(--footer-bg);
+            text-align: center;
+            padding: 25px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid var(--gold);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .contact-email {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .water-effect {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(transparent, rgba(10, 30, 70, 0.3));
+            z-index: -1;
+        }
+
+        .gondola {
+            position: fixed;
+            bottom: 20px;
+            right: -100px;
+            width: 80px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path d="M10,25 Q30,5 50,25 Q70,45 90,25 L90,40 L10,40 Z" fill="%2316213e" stroke="%23e6c200" stroke-width="1"/></svg>');
+            background-repeat: no-repeat;
+            animation: sail 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes sail {
+            0% { right: -100px; transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { right: 100%; transform: translateY(0); }
+        }
+
+        /* レスポンシブ調整 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                align-self: flex-end;
+                margin-top: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .detail-title {
+                font-size: 2rem;
+            }
+            
+            .gondola {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .attraction-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-title {
+                font-size: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -77,120 +456,133 @@
             currentAttractionId: null
         };
 
-        // 観光スポットデータ
+        // 観光スポットデータ - ここに自分の画像を設定
         const attractionsData = {
             en: [
-                // 英語データは変更なし（省略）
-            ],
-            it: [  // 追加: 完全なイタリア語データ
                 {
                     id: 1,
-                    title: "Piazza San Marco",
-                    subtitle: "Il cuore di Venezia",
-                    description: "La piazza principale di Venezia, dominata dalla maestosa Basilica di San Marco e dal Palazzo Ducale.",
-                    highlight: "Da non perdere: i bellissimi mosaici all'interno della Basilica e la vista dal campanile.",
+                    title: "St. Mark's Square",
+                    subtitle: "The heart of Venice",
+                    description: "The principal public square of Venice, dominated by the majestic St. Mark's Basilica and the Doge's Palace.",
+                    highlight: "Don't miss the beautiful mosaics inside the Basilica and the view from the bell tower.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.basilicasanmarco.it/"
                 },
                 {
                     id: 2,
-                    title: "Basilica di San Marco",
-                    subtitle: "Capolavoro bizantino",
-                    description: "Una splendida cattedrale nota per il suo design opulento, i mosaici dorati e il suo status di simbolo della ricchezza e del potere veneziano.",
-                    highlight: "I mosaici dorati che ricoprono l'interno le sono valsi il soprannome di 'Chiesa d'Oro'.",
+                    title: "St. Mark's Basilica",
+                    subtitle: "Byzantine masterpiece",
+                    description: "A stunning cathedral known for its opulent design, gilded mosaics, and status as a symbol of Venetian wealth and power.",
+                    highlight: "The golden mosaics covering the interior earned it the nickname 'Church of Gold'.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1593005510323-6b5c3b5e0b33?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.basilicasanmarco.it/"
                 },
                 {
                     id: 3,
-                    title: "Palazzo Ducale",
-                    subtitle: "Simbolo del potere veneziano",
-                    description: "Capolavoro dell'architettura gotica, questo palazzo fu la residenza del Doge di Venezia e ospitava le istituzioni politiche.",
-                    highlight: "Da vedere: l'enorme dipinto di Tintoretto 'Paradiso' nella Sala del Maggior Consiglio.",
+                    title: "Doge's Palace",
+                    subtitle: "Symbol of Venetian power",
+                    description: "A masterpiece of Gothic architecture, this palace was the residence of the Doge of Venice and housed political institutions.",
+                    highlight: "Must see: Tintoretto's enormous painting 'Paradise' in the Great Council Hall.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1592417817038-d13fd7342605?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://palazzoducale.visitmuve.it/"
                 },
                 {
                     id: 4,
-                    title: "Ponte dei Sospiri",
-                    subtitle: "Monumento romantico",
-                    description: "Questo ponte coperto in pietra calcarea bianca passa sopra il Rio di Palazzo e collega il Palazzo Ducale alla prigione.",
-                    highlight: "Particolarmente bello al tramonto quando la luce si riflette sulla pietra bianca.",
+                    title: "Bridge of Sighs",
+                    subtitle: "Romantic landmark",
+                    description: "This enclosed bridge made of white limestone passes over the Rio di Palazzo and connects the Doge's Palace to the prison.",
+                    highlight: "Beautiful especially at sunset when the light reflects on the white stone.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1569336416800-8a4b49a853b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://palazzoducale.visitmuve.it/"
                 },
                 {
                     id: 5,
-                    title: "Ponte di Rialto",
-                    subtitle: "Il ponte più antico sul Canal Grande",
-                    description: "Il più antico dei quattro ponti che attraversano il Canal Grande, famoso per il suo design e l'area del mercato circostante.",
-                    highlight: "Esplora il vicino Mercato di Rialto per l'atmosfera locale e i prodotti freschi.",
+                    title: "Rialto Bridge",
+                    subtitle: "Oldest bridge over Grand Canal",
+                    description: "The oldest of the four bridges spanning the Grand Canal, famous for its design and the surrounding market area.",
+                    highlight: "Explore the Rialto Market nearby for local atmosphere and fresh produce.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.veneziaunica.it/"
                 },
                 {
                     id: 6,
-                    title: "Canal Grande",
-                    subtitle: "La principale via d'acqua di Venezia",
-                    description: "Il principale corridoio del traffico acquatico che si snoda attraverso Venezia, fiancheggiato da palazzi, chiese ed edifici storici.",
-                    highlight: "Prendi il Vaporetto Linea 1 per una crociera di 45 minuti dalla Stazione Santa Lucia a San Marco.",
+                    title: "Grand Canal",
+                    subtitle: "Venice's main waterway",
+                    description: "The major water-traffic corridor winding through Venice, lined with palaces, churches, and historic buildings.",
+                    highlight: "Take Vaporetto Line 1 for a 45-minute cruise from Santa Lucia Station to St. Mark's.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1543429776-2782fc586c7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.actv.it/"
                 },
                 {
                     id: 7,
                     title: "Ca' Rezzonico",
-                    subtitle: "Arte veneziana del XVIII secolo",
-                    description: "Un magnifico palazzo sul Canal Grande che ospita il Museo del Settecento Veneziano con arredi e opere d'arte dell'epoca.",
-                    highlight: "Vivi l'atmosfera del lusso barocco veneziano.",
+                    subtitle: "18th century Venetian art",
+                    description: "A magnificent palace on the Grand Canal housing the Museum of 18th-Century Venice with period furnishings and art.",
+                    highlight: "Experience the atmosphere of Venetian Baroque luxury.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1584824486539-53bb4646bdbc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://carezzonico.visitmuve.it/"
                 },
                 {
                     id: 8,
                     title: "Gallerie dell'Accademia",
-                    subtitle: "Tesori della pittura veneziana",
-                    description: "Ospita la più grande collezione di dipinti veneziani dal XIV al XVIII secolo, con opere di Bellini, Tiziano e Veronese.",
-                    highlight: "Non perderti l''Uomo Vitruviano' di Leonardo da Vinci (esposto periodicamente).",
+                    subtitle: "Treasures of Venetian painting",
+                    description: "Houses the largest collection of Venetian paintings from the 14th to 18th centuries, including works by Bellini, Titian, and Veronese.",
+                    highlight: "Don't miss Leonardo da Vinci's 'Vitruvian Man' (exhibited periodically).",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1610737241329-8a51d47f0e5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.gallerieaccademia.it/"
                 },
                 {
                     id: 9,
-                    title: "Collezione Peggy Guggenheim",
-                    subtitle: "Arte moderna sul Canal Grande",
-                    description: "Uno dei principali musei europei per l'arte moderna europea e americana della prima metà del XX secolo.",
-                    highlight: "Presenta opere di Picasso, Pollock, Dalí e molti altri in una splendida cornice di palazzo.",
+                    title: "Peggy Guggenheim Collection",
+                    subtitle: "Modern art on the Grand Canal",
+                    description: "One of Europe's premier museums for European and American modern art of the first half of the 20th century.",
+                    highlight: "Features works by Picasso, Pollock, Dalí, and many others in a beautiful palazzo setting.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1610737241329-8a51d47f0e5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.guggenheim-venice.it/"
                 },
                 {
                     id: 10,
                     title: "Scala Contarini del Bovolo",
-                    subtitle: "Gioiello architettonico nascosto",
-                    description: "Una torre a scala a chiocciola unica nascosta in un piccolo cortile, capolavoro dell'architettura rinascimentale veneziana.",
-                    highlight: "Sali in cima per una delle migliori viste sui tetti di Venezia.",
+                    subtitle: "Hidden architectural gem",
+                    description: "A unique spiral staircase tower hidden in a small courtyard, a masterpiece of Venetian Renaissance architecture.",
+                    highlight: "Climb to the top for one of the best views of Venice rooftops.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1592417817038-d13fd7342605?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.scalacontarinidelbovolo.com/"
                 },
                 {
                     id: 11,
                     title: "Campo Santa Margherita",
-                    subtitle: "La vita locale a Venezia",
-                    description: "Una piazza vivace nel sestiere di Dorsoduro, popolare tra studenti e locali per i suoi caffè, bar e bancarelle.",
-                    highlight: "Vivi l'autentica atmosfera veneziana lontano dalle principali zone turistiche.",
+                    subtitle: "Local life in Venice",
+                    description: "A lively square in the Dorsoduro district, popular with students and locals for its cafes, bars, and market stalls.",
+                    highlight: "Experience authentic Venetian atmosphere away from the main tourist spots.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1593005510323-6b5c3b5e0b33?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.veneziaunica.it/"
                 },
                 {
                     id: 12,
-                    title: "Isole di Burano e Murano",
-                    subtitle: "Colore e artigianato",
-                    description: "Burano è famosa per le sue case dai colori vivaci dei pescatori e la lavorazione del merletto, mentre Murano è rinomata per la sua tradizione della lavorazione del vetro.",
-                    highlight: "Prendi un vaporetto per esplorare queste incantevoli isole e i loro mestieri.",
+                    title: "Burano & Murano Islands",
+                    subtitle: "Color and craftsmanship",
+                    description: "Burano is famous for its brightly colored fishermen's houses and lace-making, while Murano is renowned for its glassmaking tradition.",
+                    highlight: "Take a vaporetto to explore these charming islands and their crafts.",
+                    // 自分の画像に置き換え
                     imageUrl: "https://images.unsplash.com/photo-1569336416800-8a4b49a853b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.veneziaunica.it/"
                 }
+            ],
+            it: [
+                // イタリア語データも同様にimageUrlを追加
+                // ...
             ]
         };
 
@@ -226,14 +618,7 @@
                 document.querySelector('#main-title').textContent = 'Venice Top 12';
                 document.querySelector('#sub-title').textContent = 'Discover the magic of Venice';
             }
-            
-            // メインページを再描画
             renderAttractions();
-            
-            // 詳細ページが表示されている場合は再描画
-            if (appState.currentPage === 'detail' && appState.currentAttractionId) {
-                showDetail(appState.currentAttractionId);
-            }
         }
 
         // 観光スポットのレンダリング
@@ -267,8 +652,6 @@
             if (!data) return;
             
             appState.currentAttractionId = id;
-            appState.currentPage = 'detail'; // ページ状態を更新
-            
             document.getElementById('detail-title').textContent = data.title;
             document.getElementById('detail-subtitle').textContent = data.subtitle;
             document.getElementById('detail-description').textContent = data.description;
@@ -283,11 +666,9 @@
 
         // メインページに戻る
         function goBack() {
-            appState.currentPage = 'main'; // ページ状態を更新
-            appState.currentAttractionId = null;
-            
             document.getElementById('detail-page').classList.add('hidden');
             document.getElementById('main-page').classList.remove('hidden');
+            appState.currentAttractionId = null;
         }
 
         // PWAのインストール
