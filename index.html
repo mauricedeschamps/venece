@@ -6,8 +6,6 @@
     <meta name="theme-color" content="#1a1a2e">
     <meta name="description" content="ベネチアのベスト観光スポット12選を紹介">
     <title>Venice Travel Guide - Top 12 Attractions</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛶</text></svg>">
     <style>
         :root {
             --primary: #1a1a2e;
@@ -44,16 +42,11 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--text);
             min-height: 100vh;
-            padding-bottom: 60px;
-            transition: background 0.5s ease;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
+        /* ヘッダーを固定 */
         header {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
@@ -65,6 +58,32 @@
             border-bottom: 1px solid var(--gold);
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        /* フッターを固定 */
+        footer {
+            background: var(--footer-bg);
+            text-align: center;
+            padding: 25px 20px;
+            border-top: 1px solid var(--gold);
+            position: sticky;
+            bottom: 0;
+            z-index: 90;
+        }
+
+        /* その他のスタイルは変更なし */
         .header-content {
             display: flex;
             justify-content: space-between;
@@ -276,37 +295,6 @@
         .official-link:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 15px var(--shadow);
-        }
-
-        footer {
-            background: var(--footer-bg);
-            text-align: center;
-            padding: 25px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            border-top: 1px solid var(--gold);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .contact-text {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .contact-email {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .contact-email:hover {
-            text-decoration: underline;
         }
 
         .hidden {
@@ -558,49 +546,51 @@
     </header>
 
     <div class="container">
-        <div id="main-page">
-            <div class="attraction-grid" id="attractions-container">
-                <!-- アトラクションカードはJSで生成 -->
-            </div>
-            
-            <div class="image-settings">
-                <h2 class="settings-title">Customize Images</h2>
-                <div class="image-controls">
-                    <div class="image-preview">
-                        <div class="preview-container" id="image-preview">
-                            <p class="preview-text">Select an attraction to preview</p>
+        <div class="main-content">
+            <div id="main-page">
+                <div class="attraction-grid" id="attractions-container">
+                    <!-- アトラクションカードはJSで生成 -->
+                </div>
+                
+                <div class="image-settings">
+                    <h2 class="settings-title">Customize Images</h2>
+                    <div class="image-controls">
+                        <div class="image-preview">
+                            <div class="preview-container" id="image-preview">
+                                <p class="preview-text">Select an attraction to preview</p>
+                            </div>
+                            <div class="image-selection" id="image-selection">
+                                <!-- 画像選択オプションはJSで生成 -->
+                            </div>
                         </div>
-                        <div class="image-selection" id="image-selection">
-                            <!-- 画像選択オプションはJSで生成 -->
+                        
+                        <div class="image-upload">
+                            <input type="text" id="image-url" class="url-input" placeholder="Paste image URL here">
+                            <p style="color: var(--text); text-align: center; opacity: 0.8;">OR</p>
+                            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                            <button class="save-btn upload-btn" id="upload-trigger">Upload Image</button>
+                            <button class="save-btn" id="save-image">Save Image for Selected Attraction</button>
+                            <button class="save-btn" id="reset-images" style="background: #f44336;">Reset All Images</button>
                         </div>
-                    </div>
-                    
-                    <div class="image-upload">
-                        <input type="text" id="image-url" class="url-input" placeholder="Paste image URL here">
-                        <p style="color: var(--text); text-align: center; opacity: 0.8;">OR</p>
-                        <input type="file" id="image-upload" accept="image/*" style="display: none;">
-                        <button class="save-btn upload-btn" id="upload-trigger">Upload Image</button>
-                        <button class="save-btn" id="save-image">Save Image for Selected Attraction</button>
-                        <button class="save-btn" id="reset-images" style="background: #f44336;">Reset All Images</button>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div id="detail-page" class="hidden detail-page">
-            <button class="btn back-btn" id="back-button">← Back to List</button>
-            <div class="detail-header">
-                <h2 class="detail-title" id="detail-title">Attraction Title</h2>
-                <h3 class="detail-subtitle" id="detail-subtitle">Attraction Subtitle</h3>
-            </div>
-            <div class="detail-content">
-                <div class="detail-img" id="detail-image"></div>
-                <div class="detail-text">
-                    <p id="detail-description">Description will appear here...</p>
-                    <div class="detail-highlight" id="detail-highlight">
-                        Highlighted information
+            
+            <div id="detail-page" class="hidden detail-page">
+                <button class="btn back-btn" id="back-button">← Back to List</button>
+                <div class="detail-header">
+                    <h2 class="detail-title" id="detail-title">Attraction Title</h2>
+                    <h3 class="detail-subtitle" id="detail-subtitle">Attraction Subtitle</h3>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-img" id="detail-image"></div>
+                    <div class="detail-text">
+                        <p id="detail-description">Description will appear here...</p>
+                        <div class="detail-highlight" id="detail-highlight">
+                            Highlighted information
+                        </div>
+                        <a href="#" class="official-link" id="official-link" target="_blank">Visit Official Website</a>
                     </div>
-                    <a href="#" class="official-link" id="official-link" target="_blank">Visit Official Website</a>
                 </div>
             </div>
         </div>
@@ -1047,6 +1037,7 @@
             if (!file.type.match('image.*')) {
                 alert('Please select an image file (jpg, png, gif, etc.)');
                 return;
+            
             }
             
             const reader = new FileReader();
@@ -1114,15 +1105,6 @@
             appState.currentAttractionId = null;
         }
 
-        // PWAのインストール
-        function initPWA() {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registered', reg))
-                    .catch(err => console.error('Service Worker registration failed', err));
-            }
-        }
-
         // ローカルストレージからカスタム画像を読み込む
         function loadCustomImages() {
             const savedImages = localStorage.getItem('customImages');
@@ -1145,7 +1127,6 @@
             loadCustomImages();
             renderAttractions();
             renderImageOptions();
-            initPWA();
         });
     </script>
 </body>
