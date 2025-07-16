@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a2e">
     <meta name="description" content="ベネチアのベスト観光スポット12選を紹介">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icon-192x192.jpg">
     <title>Venice Travel Guide - Top 12 Attractions</title>
     <style>
         :root {
@@ -46,14 +50,10 @@
             flex-direction: column;
         }
 
-        /* ヘッダーの固定を解除 */
         header {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             padding: 20px 0;
-            /* position: sticky; 削除 */
-            /* top: 0; 削除 */
-            /* z-index: 100; 削除 */
             box-shadow: 0 4px 15px var(--shadow);
             border-bottom: 1px solid var(--gold);
         }
@@ -72,15 +72,64 @@
             padding: 20px 0;
         }
 
-        /* フッターの固定を解除 */
         footer {
             background: var(--footer-bg);
             text-align: center;
             padding: 25px 20px;
             border-top: 1px solid var(--gold);
-            /* position: sticky; 削除 */
-            /* bottom: 0; 削除 */
-            /* z-index: 90; 削除 */
+        }
+
+        /* インストールボタンスタイル */
+        .install-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .install-btn {
+            background: var(--gold);
+            color: var(--primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .install-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .install-btn.hidden {
+            transform: translateY(100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* オフラインバッジ */
+        .offline-badge {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .offline-badge.show {
+            display: block;
         }
 
         /* その他のスタイルは変更なし */
@@ -507,6 +556,13 @@
             .image-controls {
                 grid-template-columns: 1fr;
             }
+            
+            .install-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                bottom: 15px;
+                right: 15px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -526,6 +582,8 @@
     </style>
 </head>
 <body>
+    <div class="offline-badge" id="offline-badge">You are offline</div>
+    
     <header>
         <div class="container header-content">
             <div class="title-group">
@@ -605,6 +663,13 @@
 
     <div class="water-effect"></div>
     <div class="gondola"></div>
+    
+    <!-- PWAインストールボタン -->
+    <div class="install-container" id="install-container">
+        <button class="install-btn" id="install-button">
+            <span>📱 Install App</span>
+        </button>
+    </div>
 
     <script>
         // アプリの状態管理
@@ -637,7 +702,7 @@
                     description: "A stunning cathedral known for its opulent design, gilded mosaics, and status as a symbol of Venetian wealth and power.",
                     highlight: "The golden mosaics covering the interior earned it the nickname 'Church of Gold'.",
                     image: "st-marks-basilica",
-                    defaultImage: "http://www.basilicasanmarco.it/?lang=en",
+                    defaultImage: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
                     officialUrl: "https://www.basilicasanmarco.it/"
                 },
                 {
@@ -865,6 +930,86 @@
             ]
         };
 
+        // === PWA機能関連 ===
+        // サービスワーカー登録
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(registration => {
+                            console.log('ServiceWorker registered: ', registration.scope);
+                        })
+                        .catch(error => {
+                            console.log('ServiceWorker registration failed: ', error);
+                        });
+                });
+            }
+        }
+        
+        // インストールプロンプト
+        let deferredPrompt;
+        const installButton = document.getElementById('install-button');
+        const installContainer = document.getElementById('install-container');
+        
+        function setupInstallPrompt() {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installContainer.classList.remove('hidden');
+                
+                installButton.addEventListener('click', () => {
+                    installContainer.classList.add('hidden');
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted install');
+                        } else {
+                            console.log('User dismissed install');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            });
+            
+            window.addEventListener('appinstalled', () => {
+                installContainer.classList.add('hidden');
+                deferredPrompt = null;
+                console.log('PWA installed');
+            });
+        }
+        
+        // インストール状態チェック
+        function checkInstallStatus() {
+            window.addEventListener('load', () => {
+                if (window.matchMedia('(display-mode: standalone)').matches || 
+                    window.navigator.standalone ||
+                    document.referrer.includes('android-app://')) {
+                    installContainer.classList.add('hidden');
+                }
+            });
+        }
+        
+        // ネットワーク状態監視
+        function monitorNetworkStatus() {
+            const offlineBadge = document.getElementById('offline-badge');
+            
+            window.addEventListener('online', () => {
+                offlineBadge.classList.remove('show');
+                console.log('Online');
+            });
+            
+            window.addEventListener('offline', () => {
+                offlineBadge.classList.add('show');
+                console.log('Offline');
+            });
+            
+            // 初期状態チェック
+            if (!navigator.onLine) {
+                offlineBadge.classList.add('show');
+            }
+        }
+        
+        // === アプリ機能関連 ===
         // テーマ切り替え
         function toggleTheme() {
             if (appState.currentTheme === 'dark') {
@@ -1114,21 +1259,29 @@
         }
 
         // イベントリスナーの設定
-        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-        document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
-        document.getElementById('back-button').addEventListener('click', goBack);
-        document.getElementById('save-image').addEventListener('click', saveImage);
-        document.getElementById('upload-trigger').addEventListener('click', uploadImage);
-        document.getElementById('image-upload').addEventListener('change', handleImageUpload);
-        document.getElementById('reset-images').addEventListener('click', resetAllImages);
+        function setupEventListeners() {
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+            document.getElementById('back-button').addEventListener('click', goBack);
+            document.getElementById('save-image').addEventListener('click', saveImage);
+            document.getElementById('upload-trigger').addEventListener('click', uploadImage);
+            document.getElementById('image-upload').addEventListener('change', handleImageUpload);
+            document.getElementById('reset-images').addEventListener('click', resetAllImages);
+        }
 
         // 初期化
         document.addEventListener('DOMContentLoaded', () => {
             loadCustomImages();
             renderAttractions();
             renderImageOptions();
+            setupEventListeners();
+            
+            // PWA機能初期化
+            registerServiceWorker();
+            setupInstallPrompt();
+            checkInstallStatus();
+            monitorNetworkStatus();
         });
     </script>
 </body>
 </html>
-
