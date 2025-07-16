@@ -46,14 +46,14 @@
             flex-direction: column;
         }
 
-        /* ヘッダーを固定 */
+        /* ヘッダーの固定を解除 */
         header {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            /* position: sticky; 削除 */
+            /* top: 0; 削除 */
+            /* z-index: 100; 削除 */
             box-shadow: 0 4px 15px var(--shadow);
             border-bottom: 1px solid var(--gold);
         }
@@ -72,15 +72,15 @@
             padding: 20px 0;
         }
 
-        /* フッターを固定 */
+        /* フッターの固定を解除 */
         footer {
             background: var(--footer-bg);
             text-align: center;
             padding: 25px 20px;
             border-top: 1px solid var(--gold);
-            position: sticky;
-            bottom: 0;
-            z-index: 90;
+            /* position: sticky; 削除 */
+            /* bottom: 0; 削除 */
+            /* z-index: 90; 削除 */
         }
 
         /* その他のスタイルは変更なし */
