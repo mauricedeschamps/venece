@@ -2,7 +2,7 @@ const CACHE_NAME = 'venice-travel-guide-v2';
 const urlsToCache = [
   '/',
   '/index.html',
-  'icon-192x192.jpg',
+  'IMG_20250716_222622_(192_x_192_ピクセル).jpg',
   'icon-512x512.jpg'
 ];
 
