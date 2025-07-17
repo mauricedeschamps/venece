@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="IMG_20250716_222622_(192_x_192_ピクセル).jpg">
+    <link rel="apple-touch-icon" href="icon-192x192.jpg">
     <title>Venice Travel Guide - Top 12 Attractions</title>
     <style>
         :root {
@@ -85,7 +85,7 @@
             bottom: 20px;
             right: 20px;
             z-index: 1000;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
         
         .install-btn {
@@ -126,10 +126,12 @@
             font-size: 0.8rem;
             z-index: 1000;
             display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
         .offline-badge.show {
             display: block;
+            animation: fadeIn 0.5s ease;
         }
 
         /* その他のスタイルは変更なし */
@@ -578,6 +580,15 @@
             .detail-title {
                 font-size: 1.8rem;
             }
+            
+            .install-btn span {
+                display: none;
+            }
+            
+            .install-btn::before {
+                content: "📱";
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -665,13 +676,16 @@
     <div class="gondola"></div>
     
     <!-- PWAインストールボタン -->
-    <div class="install-container" id="install-container">
+    <div class="install-container hidden" id="install-container">
         <button class="install-btn" id="install-button">
             <span>📱 Install App</span>
         </button>
     </div>
 
     <script>
+        // === グローバル変数 ===
+        let deferredPrompt; // インストールプロンプト用グローバル変数
+        
         // アプリの状態管理
         const appState = {
             currentTheme: 'dark',
@@ -946,47 +960,65 @@
             }
         }
         
-        // インストールプロンプト
-        let deferredPrompt;
-        const installButton = document.getElementById('install-button');
-        const installContainer = document.getElementById('install-container');
-        
+        // インストールプロンプト設定
         function setupInstallPrompt() {
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                installContainer.classList.remove('hidden');
+            const installButton = document.getElementById('install-button');
+            const installContainer = document.getElementById('install-container');
+            
+            // クリックイベントハンドラ
+            installButton.addEventListener('click', async () => {
+                if (!deferredPrompt) {
+                    return;
+                }
                 
-                installButton.addEventListener('click', () => {
-                    installContainer.classList.add('hidden');
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted install');
-                        } else {
-                            console.log('User dismissed install');
-                        }
-                        deferredPrompt = null;
-                    });
-                });
+                // プロンプトを表示
+                deferredPrompt.prompt();
+                
+                // ユーザーの選択を待つ
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                
+                // プロンプトをリセット
+                deferredPrompt = null;
+                
+                // ボタンを非表示
+                installContainer.classList.add('hidden');
             });
             
+            // beforeinstallprompt イベントリスナー
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // デフォルトのプロンプトを防ぐ
+                e.preventDefault();
+                
+                // イベントを保存
+                deferredPrompt = e;
+                console.log('beforeinstallprompt event fired');
+                
+                // インストールボタンを表示
+                installContainer.classList.remove('hidden');
+            });
+            
+            // アプリがインストールされたときのイベント
             window.addEventListener('appinstalled', () => {
+                console.log('PWA installed');
                 installContainer.classList.add('hidden');
                 deferredPrompt = null;
-                console.log('PWA installed');
             });
         }
         
         // インストール状態チェック
         function checkInstallStatus() {
-            window.addEventListener('load', () => {
-                if (window.matchMedia('(display-mode: standalone)').matches || 
-                    window.navigator.standalone ||
-                    document.referrer.includes('android-app://')) {
-                    installContainer.classList.add('hidden');
-                }
-            });
+            const installContainer = document.getElementById('install-container');
+            
+            // インストール済みかどうかをチェック
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            const isInstalled = window.navigator.standalone;
+            const isReferrer = document.referrer.includes('android-app://');
+            
+            if (isStandalone || isInstalled || isReferrer) {
+                installContainer.classList.add('hidden');
+                console.log('App is already installed');
+            }
         }
         
         // ネットワーク状態監視
@@ -1182,7 +1214,6 @@
             if (!file.type.match('image.*')) {
                 alert('Please select an image file (jpg, png, gif, etc.)');
                 return;
-            
             }
             
             const reader = new FileReader();
