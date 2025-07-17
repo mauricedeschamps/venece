@@ -3,9 +3,7 @@ const urlsToCache = [
   '/',
   '/index.html',
   'icon-192x192.jpg',
-  'icon-512x512.jpg',
-  'https://images.unsplash.com/photo-*', // Unsplash画像をキャッシュ
-  'https://fonts.googleapis.com/css2?family=*' // Google Fontsをキャッシュ
+  'icon-512x512.jpg'
 ];
 
 // インストールイベント
@@ -13,24 +11,25 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
+        console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
   );
 });
 
-// フェッチイベント（キャッシュファースト戦略）
+// フェッチイベント
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // キャッシュがあればそれを返す
+        // キャッシュがあれば返す
         if (response) {
           return response;
         }
         
         // ネットワークリクエスト
         return fetch(event.request).then(response => {
-          // 有効なレスポンスかチェック
+          // レスポンスが有効かチェック
           if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
           }
@@ -38,19 +37,15 @@ self.addEventListener('fetch', event => {
           // レスポンスをクローン
           const responseToCache = response.clone();
           
-          // キャッシュを開いて追加
           caches.open(CACHE_NAME)
             .then(cache => {
-              // 画像リクエストのみキャッシュ（動的コンテンツはキャッシュしない）
+              // 画像リクエストのみキャッシュ
               if (event.request.url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
                 cache.put(event.request, responseToCache);
               }
             });
           
           return response;
-        }).catch(() => {
-          // オフライン時のフォールバック
-          return caches.match('/offline.html');
         });
       })
   );
